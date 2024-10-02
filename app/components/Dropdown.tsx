@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Combobox,
   ComboboxInput,
@@ -15,37 +15,54 @@ interface Item {
 
 interface Props<T extends Item> {
   items: T[];
-  selected: T | null;
+  selected?: T | null;
   onChange: (item: T | null) => void;
   placeholder?: string;
+  search?: (query: string) => void;
+  showSelected?: "label" | "value";
 }
 
-function Dropdown<T extends Item>({
+export function Dropdown<T extends Item>({
   items,
   selected,
   onChange,
   placeholder = "Select an option...",
+  search,
+  showSelected = "label",
 }: Props<T>) {
   const [query, setQuery] = useState("");
   const [selectOption, setSelectOption] = useState<T | null>(selected);
 
+  useEffect(() => {
+    setSelectOption(selected);
+  }, [selected]);
+
+  useEffect(() => {
+    if (query?.length > 2) {
+      search?.(query);
+    }
+  }, [query, search]);
+
   const filteredItems =
     query === ""
       ? items
-      : items.filter((item) =>
-          item.label.toLowerCase().includes(query.toLowerCase())
-        );
+      : search
+        ? items
+        : items.filter((item) =>
+            item.label.toLowerCase().includes(query.toLowerCase())
+          );
 
   return (
-    <div className="relative max-w-fit mx-auto">
+    <div className="relative max-w-fit">
       <Combobox value={selectOption} onChange={onChange}>
         <div className="relative">
           <ComboboxInput
             className={clsx(
-              "relative w-full rounded-lg border-none bg-gray-700 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+              "relative font-bold w-full rounded-lg border-none py-1.5 pr-8 pl-3 text-sm/6",
+              "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100",
               "focus:ring-blue-500 focus:border-blue-500"
             )}
-            displayValue={(item: T | null) => item?.value || ""}
+            displayValue={(item: T | null) => item?.[showSelected] || ""}
             onChange={(event) => setQuery(event.target?.value)}
             placeholder={placeholder}
             onClick={() => {
@@ -57,8 +74,9 @@ function Dropdown<T extends Item>({
 
         <ComboboxOptions
           className={clsx(
-            "absolute max-w-full w-full mt-1 max-h-60 overflow-auto rounded-md bg-gray-700 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm",
-            "scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-700"
+            "absolute max-w-full w-full mt-1 h-50 max-h-60 overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm",
+            "bg-white dark:bg-gray-800",
+            "scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-700"
           )}
         >
           {filteredItems.map((item) => (
@@ -68,7 +86,9 @@ function Dropdown<T extends Item>({
               className={({ active }) =>
                 clsx(
                   "cursor-default select-none relative py-2 pl-3 pr-9",
-                  active ? "text-white bg-blue-600" : "text-gray-200"
+                  active
+                    ? "text-white bg-blue-600"
+                    : "text-gray-900 dark:text-gray-200"
                 )
               }
             >
@@ -115,5 +135,3 @@ function CheckIcon(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
-export default Dropdown;

@@ -1,16 +1,16 @@
 import { useMemo } from "react";
 
 const colors = [
-  "bg-teal-800",
-  "bg-indigo-800",
-  "bg-blue-800",
-  "bg-pink-800",
-  "bg-red-800",
-  "bg-orange-800",
-  "bg-yellow-800",
-  "bg-green-800",
-  "bg-cyan-800",
-  "bg-purple-800",
+  "bg-teal-200 dark:bg-teal-800",
+  "bg-indigo-200 dark:bg-indigo-800",
+  "bg-blue-200 dark:bg-blue-800",
+  "bg-pink-200 dark:bg-pink-800",
+  "bg-red-200 dark:bg-red-800",
+  "bg-orange-200 dark:bg-orange-800",
+  "bg-yellow-200 dark:bg-yellow-800",
+  "bg-green-200 dark:bg-green-800",
+  "bg-cyan-200 dark:bg-cyan-800",
+  "bg-purple-200 dark:bg-purple-800",
 ];
 
 // Keep track of the last used color index outside of the component

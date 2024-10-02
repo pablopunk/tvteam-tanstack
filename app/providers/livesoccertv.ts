@@ -1,6 +1,9 @@
-import { getMatches as getMatchesFromParser } from "livesoccertv-parser";
+import {
+	getMatches as getMatchesFromParser,
+	searchTeams as searchTeamsFromParser,
+} from "livesoccertv-parser";
 
-export type Match = Awaited<ReturnType<typeof getMatches>>[number];
+export type Match = Awaited<ReturnType<typeof getMatchesFromParser>>[number];
 
 export const matchIsEqual = (a: Match, b: Match) => {
 	const allTvsAreTheSame = a.tvs.every((tv) => b.tvs.includes(tv));
@@ -16,3 +19,4 @@ export const matchesAreEqual = (a: Match[], b: Match[]) => {
 };
 
 export const getMatches = getMatchesFromParser;
+export const searchTeams = searchTeamsFromParser;

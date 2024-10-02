@@ -1,6 +1,8 @@
 import { createRootRoute } from "@tanstack/react-router";
 import { Outlet, ScrollRestoration } from "@tanstack/react-router";
 import { Body, Head, Html, Meta, Scripts } from "@tanstack/start";
+import { AppProvider } from "../hooks/useAppContext";
+import "../globals.css";
 
 export const Route = createRootRoute({
   meta: () => [
@@ -31,21 +33,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <Html>
       <Head>
         <Meta />
-        <script src="https://cdn.tailwindcss.com" />
-        <style type="text/tailwindcss">{`
-        html {
-          color-scheme: light dark;
-        }
-        * {
-          @apply border-gray-200 dark:border-gray-800;
-        }
-        body {
-          @apply bg-gray-50 text-gray-950 dark:bg-gray-900 dark:text-gray-200;
-          }
-        `}</style>
       </Head>
       <Body>
-        <main className="p-4 max-w-screen-sm mx-auto">{children}</main>
+        <AppProvider>
+          <main className="p-4 max-w-screen-sm mx-auto">{children}</main>
+        </AppProvider>
         <ScrollRestoration />
         <Scripts />
       </Body>

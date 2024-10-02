@@ -1,4 +1,5 @@
-import type { Match } from "../../providers/livesoccertv";
+import { useAppContext } from "../hooks/useAppContext";
+import type { Match } from "../providers/livesoccertv";
 import { TV } from "./TV";
 import clsx from "clsx";
 
@@ -7,6 +8,8 @@ interface Props {
 }
 
 export const Matches = ({ matches }: Props) => {
+  const { loadingData } = useAppContext();
+
   return (
     <div className="grid grid-cols-1 gap-4">
       {matches.map((match) => (
@@ -21,23 +24,45 @@ export const Matches = ({ matches }: Props) => {
           )}
         >
           <div className="flex items-center justify-between gap-2">
-            <div className="text-xs text-teal-400 opacity-80">
+            <div className="text-xs text-teal-600 dark:text-teal-400 opacity-80">
               {match.competition}
             </div>
             <div className="flex gap-1 text-gray-500 dark:text-gray-400 text-xs">
-              <span>{match.date}</span>
-              <span className="font-bold">{match.time}</span>
+              <span
+                className={clsx("transition-all", { "blur-sm": loadingData })}
+              >
+                {match.date}
+              </span>
+              <span
+                className={`font-bold transition-all ${loadingData ? "blur-sm" : ""}`}
+              >
+                {match.time}
+              </span>
             </div>
           </div>
           <div className="flex items-center justify-between gap-2">
             <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-              {match.game}
+              <span
+                className={clsx("transition.all", {
+                  "blur-sm": loadingData === "team",
+                })}
+              >
+                {match.game}
+              </span>
             </h3>
           </div>
-          <div className="grid grid-cols-3 gap-2 text-xs mt-2">
-            {match.tvs.map((tv) => (
-              <TV key={tv} name={tv} />
-            ))}
+          <div className="grid grid-cols-3 gap-2 text-xs mt-2 min-h-[56px]">
+            {loadingData ? (
+              <>
+                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-8 animate-pulse" />
+                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-8 animate-pulse" />
+                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-8 animate-pulse" />
+                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-8 animate-pulse" />
+                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-8 animate-pulse" />
+              </>
+            ) : (
+              match.tvs.map((tv) => <TV key={tv} name={tv} />)
+            )}
           </div>
         </article>
       ))}

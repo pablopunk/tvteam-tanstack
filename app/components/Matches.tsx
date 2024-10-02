@@ -17,11 +17,11 @@ export const Matches = ({ matches }: Props) => {
             {
               "bg-red-100 dark:bg-red-950": !!match.live,
               "bg-indigo-100 dark:bg-indigo-950": !!match.played,
-            },
+            }
           )}
         >
           <div className="flex items-center justify-between gap-2">
-            <div className="text-xs text-teal-400 font-bold opacity-80">
+            <div className="text-xs text-teal-400 opacity-80">
               {match.competition}
             </div>
             <div className="flex gap-1 text-gray-500 dark:text-gray-400 text-xs">

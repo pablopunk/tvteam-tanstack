@@ -27,34 +27,38 @@ function Dropdown<T extends Item>({
   placeholder = "Select an option...",
 }: Props<T>) {
   const [query, setQuery] = useState("");
+  const [selectOption, setSelectOption] = useState<T | null>(selected);
 
   const filteredItems =
     query === ""
       ? items
       : items.filter((item) =>
-          item.label.toLowerCase().includes(query.toLowerCase()),
+          item.label.toLowerCase().includes(query.toLowerCase())
         );
 
   return (
     <div className="relative max-w-fit mx-auto">
-      <Combobox value={selected} onChange={onChange}>
+      <Combobox value={selectOption} onChange={onChange}>
         <div className="relative">
           <ComboboxInput
             className={clsx(
               "relative w-full rounded-lg border-none bg-gray-700 py-1.5 pr-8 pl-3 text-sm/6 text-white",
-              "focus:ring-blue-500 focus:border-blue-500",
+              "focus:ring-blue-500 focus:border-blue-500"
             )}
             displayValue={(item: T | null) => item?.value || ""}
             onChange={(event) => setQuery(event.target?.value)}
             placeholder={placeholder}
-            onClick={() => setQuery("")}
+            onClick={() => {
+              setSelectOption(null);
+              setQuery("");
+            }}
           />
         </div>
 
         <ComboboxOptions
           className={clsx(
             "absolute max-w-full w-full mt-1 max-h-60 overflow-auto rounded-md bg-gray-700 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm",
-            "scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-700",
+            "scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-700"
           )}
         >
           {filteredItems.map((item) => (
@@ -64,7 +68,7 @@ function Dropdown<T extends Item>({
               className={({ active }) =>
                 clsx(
                   "cursor-default select-none relative py-2 pl-3 pr-9",
-                  active ? "text-white bg-blue-600" : "text-gray-200",
+                  active ? "text-white bg-blue-600" : "text-gray-200"
                 )
               }
             >
@@ -73,7 +77,7 @@ function Dropdown<T extends Item>({
                   <span
                     className={clsx(
                       "block truncate",
-                      selected && "font-semibold",
+                      selected && "font-semibold"
                     )}
                   >
                     {item.icon && <span className="mr-2">{item.icon}</span>}
@@ -83,7 +87,7 @@ function Dropdown<T extends Item>({
                     <span
                       className={clsx(
                         "absolute inset-y-0 right-0 flex items-center pr-4",
-                        active ? "text-white" : "text-blue-600",
+                        active ? "text-white" : "text-blue-600"
                       )}
                     >
                       <CheckIcon className="h-5 w-5" aria-hidden="true" />

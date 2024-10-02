@@ -1,0 +1,28 @@
+{
+  "name": "try-tanstack",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^18.3.10",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.6.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.1.8",
+    "@tanstack/react-router": "^1.58.16",
+    "@tanstack/start": "^1.58.16",
+    "@vitejs/plugin-react": "^4.3.2",
+    "livesoccertv-parser": "^6.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vinxi": "^0.4.3"
+  },
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start"
+  }
+}

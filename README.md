@@ -1,4 +1,4 @@
-# try-tanstack
+# TV TEAM
 
 To install dependencies:
 
@@ -6,10 +6,8 @@ To install dependencies:
 bun install
 ```
 
-To run:
+To run in dev mode:
 
 ```bash
-bun run index.ts
+bun run dev
 ```
-
-This project was created using `bun init` in bun v1.1.0. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.

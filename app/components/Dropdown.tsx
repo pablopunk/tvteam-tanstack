@@ -49,8 +49,8 @@ export function Dropdown<T extends Item>({
       : search
         ? items
         : items.filter((item) =>
-            item.label.toLowerCase().includes(query.toLowerCase())
-          );
+          item.label.toLowerCase().includes(query.toLowerCase())
+        );
 
   return (
     <div className="relative max-w-fit">

@@ -28,7 +28,7 @@ export const TV = ({ name }: { name: string }) => {
   return (
     <a
       href={`https://search.brave.com/search?q=${encodeURIComponent(name)}`}
-      className={`text-gray-900 dark:text-gray-100 rounded-md p-1 text-center ${colorClass} hover:saturate-200 hover:brightness-110 transition`}
+      className={`text-gray-900 dark:text-gray-100 rounded-md p-1 text-center ${colorClass} hover:saturate-200 hover:brightness-110 transition flex items-center justify-center`}
       target="_blank"
       rel="noreferrer"
     >

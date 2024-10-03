@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import { Dropdown } from "./Dropdown";
 import { createServerFn } from "@tanstack/start";
-import { searchTeams } from "../providers/livesoccertv";
-import { useAppContext } from "../hooks/useAppContext";
+import { searchTeams } from "@/providers/livesoccertv";
+import { useAppContext } from "@/hooks/useAppContext";
 
 const searchTeamsFromServer = createServerFn("GET", async (query: string) => {
   const results = await searchTeams(query);

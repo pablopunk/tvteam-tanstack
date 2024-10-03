@@ -4,8 +4,8 @@ import tsConfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   server: {
     // preset: "vercel",
-    // preset: "bun",
-    preset: "node-server",
+    // preset: "node-server",
+    preset: "bun",
   },
   vite: {
     plugins: () => [

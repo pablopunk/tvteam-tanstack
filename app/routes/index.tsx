@@ -8,6 +8,9 @@ import { SearchTimezones } from "@/components/SearchTimezones";
 import { useAppContext } from "@/hooks/useAppContext";
 import { getCachedMatches } from "@/utils/cache";
 import { QuickSearch } from "@/components/QuickSearch";
+import { Nav } from "@/components/Nav";
+import { getTeamImages } from "@/providers/sportsdb";
+
 const getMatchesFromServer = createServerFn(
   "GET",
   async (payload: { country: string; team: string; timezone: string }) => {
@@ -22,17 +25,22 @@ export const Route = createFileRoute("/")({
   loader: async (ctx) => {
     const search = ctx.location.search as { timezone?: string };
     const timezone = search.timezone || "Europe/Madrid";
-    return await getMatchesFromServer({
+    const matches = await getMatchesFromServer({
       country: "spain",
       team: "real-madrid",
       timezone,
     });
+    const images = await getTeamImages("real madrid");
+    return {
+      matches,
+      images,
+    };
   },
 });
 
 function Home() {
   const state = Route.useLoaderData();
-  const [matchesData, setMatchesData] = useState(state || []);
+  const [matchesData, setMatchesData] = useState(state?.matches || []);
   const { timezone, country, team, setLoadingData } = useAppContext();
 
   useEffect(() => {
@@ -50,11 +58,7 @@ function Home() {
 
   return (
     <div className="flex flex-col gap-4 max-w-screen-sm mx-auto">
-      <nav className="flex justify-center">
-        <h1 className="font-bold text-2xl text-gray-900 dark:text-gray-100">
-          TV {team.replace("-", " ").toUpperCase()}
-        </h1>
-      </nav>
+      <Nav initialTeamImages={state?.images} />
       <aside className="flex flex-col gap-3 w-full items-center">
         <div className="flex gap-2 justify-center w-full">
           <SearchTeams />
@@ -62,7 +66,7 @@ function Home() {
         </div>
         <QuickSearch />
       </aside>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 z-0">
         {liveMatch ? (
           <section className="flex flex-col gap-2">
             <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
@@ -88,7 +92,7 @@ function Home() {
         ) : (
           <h3 className="text-xl text-red-900 dark:text-red-100">
             No upcoming matches found for{" "}
-            <span className="font-bold">{team.replace("-", " ")}</span>
+            <span className="font-bold">{team.replace(/-/g, " ")}</span>
           </h3>
         )}
       </div>

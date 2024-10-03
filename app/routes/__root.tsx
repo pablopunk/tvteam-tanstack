@@ -3,6 +3,7 @@ import { Outlet, ScrollRestoration } from "@tanstack/react-router";
 import { Body, Head, Html, Meta, Scripts } from "@tanstack/start";
 import { AppProvider } from "@/hooks/useAppContext";
 import styles from "@/globals.css?url";
+import favicon from "@/public/favicon.svg?url";
 
 export const Route = createRootRoute({
   meta: () => [
@@ -21,6 +22,10 @@ export const Route = createRootRoute({
     {
       rel: "stylesheet",
       href: styles,
+    },
+    {
+      rel: "icon",
+      href: favicon,
     },
   ],
   component: RootComponent,

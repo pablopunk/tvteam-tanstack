@@ -16,10 +16,11 @@ export const Matches = ({ matches }: Props) => {
         <article
           key={match.game}
           className={clsx(
-            "bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 flex flex-col gap-1",
+            "dark:bg-gray-800 shadow-md rounded-lg p-4 flex flex-col gap-1",
             {
-              "bg-red-100 dark:bg-red-950": !!match.live,
-              "bg-indigo-100 dark:bg-indigo-950": !!match.played,
+              "bg-white dark:bg-gray-800": !match.live && !match.played,
+              "bg-red-50 dark:bg-red-950": !!match.live,
+              "bg-indigo-50 dark:bg-indigo-950": !!match.played,
             }
           )}
         >

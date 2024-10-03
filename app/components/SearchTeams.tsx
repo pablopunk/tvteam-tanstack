@@ -13,7 +13,7 @@ const searchTeamsFromServer = createServerFn("GET", async (query: string) => {
 const getLabel = (team: string) => {
   return (
     (team || "")
-      .replace("-", " ")
+      .replace(/-/g, " ")
       .split(" ")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ") || ""

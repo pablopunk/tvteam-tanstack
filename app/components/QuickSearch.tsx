@@ -7,7 +7,7 @@ const quickLinks = [
 ];
 
 const prettyTeamName = (team: string) => {
-  return team.replace("-", " ").toUpperCase();
+  return team.replace(/-/g, " ").toUpperCase();
 };
 
 export const QuickSearch = () => {

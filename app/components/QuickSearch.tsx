@@ -14,9 +14,11 @@ export const QuickSearch = () => {
   const ctx = useAppContext();
 
   const selectTeam = (country: string, team: string) => {
-    ctx.setTeam(team);
-    ctx.setCountry(country);
-    ctx.setLoadingData("team");
+    if (ctx.team !== team) {
+      ctx.setTeam(team);
+      ctx.setCountry(country);
+      ctx.setLoadingData("team");
+    }
   };
 
   return (
@@ -25,6 +27,7 @@ export const QuickSearch = () => {
       <div className="flex gap-2">
         {quickLinks.map(([country, team]) => (
           <button
+            type="button"
             className="text-xs text-gray-500 dark:text-gray-400 font-bold hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
             onClick={() => {
               selectTeam(country, team);

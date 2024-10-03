@@ -1,5 +1,5 @@
-import { useAppContext } from "../hooks/useAppContext";
-import type { Match } from "../providers/livesoccertv";
+import { useAppContext } from "@/hooks/useAppContext";
+import type { Match } from "@/providers/livesoccertv";
 import { TV } from "./TV";
 import clsx from "clsx";
 

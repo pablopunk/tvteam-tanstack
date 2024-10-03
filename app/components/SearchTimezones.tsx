@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Dropdown } from "./Dropdown";
-import { useAppContext } from "../hooks/useAppContext";
+import { useAppContext } from "@/hooks/useAppContext";
 
 const getLabel = (timezone: string) => {
   return timezone.split("/").pop();

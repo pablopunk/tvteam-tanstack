@@ -1,13 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
 import { useEffect, useState } from "react";
-import { matchesAreEqual } from "../providers/livesoccertv";
-import { Matches } from "../components/Matches";
-import { SearchTeams } from "../components/SearchTeams";
-import { SearchTimezones } from "../components/SearchTimezones";
-import { useAppContext } from "../hooks/useAppContext";
-import { getCachedMatches } from "../utils/cache";
-
+import { getMatches, matchesAreEqual } from "@/providers/livesoccertv";
+import { Matches } from "@/components/Matches";
+import { SearchTeams } from "@/components/SearchTeams";
+import { SearchTimezones } from "@/components/SearchTimezones";
+import { useAppContext } from "@/hooks/useAppContext";
+import { getCachedMatches } from "@/utils/cache";
 const getMatchesFromServer = createServerFn(
   "GET",
   async (payload: { country: string; team: string; timezone: string }) => {

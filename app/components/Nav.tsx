@@ -43,7 +43,7 @@ export const Nav = ({ initialTeamImages }: Props) => {
       <img
         src={teamData?.strBadge || favicon}
         alt={team}
-        className={clsx("w-8 h-8 grayscale opacity-80", {
+        className={clsx("w-8 h-8 grayscale opacity-75", {
           "invert dark:invert-0": !teamData?.strBadge,
           "animate-pulse": teamData?.strBadge === null,
         })}

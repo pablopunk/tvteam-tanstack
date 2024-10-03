@@ -1,5 +1,15 @@
 
-const getTeamData = async (teamName: string) => {
+const normalizeTeamName = (teamName: string) => {
+  return teamName
+    .replace(/-/g, " ")
+    .split(" ")
+    .map(t => t.trim())
+    .filter(t => t !== 'de')
+    .join(" ");
+}
+
+const getTeamData = async (_teamName: string) => {
+  const teamName = normalizeTeamName(_teamName);
   const response = await fetch(`https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${teamName}`);
   const data = await response.json();
   return data;

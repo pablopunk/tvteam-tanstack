@@ -3,6 +3,7 @@ import { Dropdown } from "./Dropdown";
 import { createServerFn } from "@tanstack/start";
 import { searchTeams } from "@/providers/livesoccertv";
 import { useAppContext } from "@/hooks/useAppContext";
+import { getCountryFlag } from "@/utils/flags";
 
 const searchTeamsFromServer = createServerFn("GET", async (query: string) => {
   const results = await searchTeams(query);
@@ -28,6 +29,7 @@ export const SearchTeams = () => {
         results.map((result) => ({
           value: `${result[0]}/${result[1]}`,
           label: getLabel(result[1]),
+          icon: getCountryFlag(result[0]),
         }))
       )
       .then(setTeams);

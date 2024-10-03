@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Dropdown } from "./Dropdown";
 import { useAppContext } from "@/hooks/useAppContext";
+import { getTimezoneFlag } from "@/utils/flags";
 
 const getLabel = (timezone: string) => {
   return timezone.split("/").pop();
@@ -9,6 +10,7 @@ const getTimezoneItem = (timezone: string) => {
   return {
     label: getLabel(timezone),
     value: timezone,
+    icon: getTimezoneFlag(timezone),
   };
 };
 

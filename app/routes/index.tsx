@@ -7,6 +7,7 @@ import { SearchTeams } from "@/components/SearchTeams";
 import { SearchTimezones } from "@/components/SearchTimezones";
 import { useAppContext } from "@/hooks/useAppContext";
 import { getCachedMatches } from "@/utils/cache";
+import { QuickSearch } from "@/components/QuickSearch";
 const getMatchesFromServer = createServerFn(
   "GET",
   async (payload: { country: string; team: string; timezone: string }) => {
@@ -54,9 +55,12 @@ function Home() {
           TV {team.replace("-", " ").toUpperCase()}
         </h1>
       </nav>
-      <aside className="flex justify-center gap-2 w-full">
-        <SearchTeams />
-        <SearchTimezones />
+      <aside className="flex flex-col gap-3 w-full items-center">
+        <div className="flex gap-2 justify-center w-full">
+          <SearchTeams />
+          <SearchTimezones />
+        </div>
+        <QuickSearch />
       </aside>
       <div className="flex flex-col gap-5">
         {liveMatch ? (

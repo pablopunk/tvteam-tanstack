@@ -26,7 +26,7 @@ export const Nav = ({ initialTeamImages }: Props) => {
   }, [team]);
 
   return (
-    <nav className="flex justify-center gap-2">
+    <nav className="flex justify-center gap-2 relative">
       {teamData?.strBanner && (
         <img
           src={teamData.strBanner}
@@ -44,13 +44,13 @@ export const Nav = ({ initialTeamImages }: Props) => {
         src={teamData?.strBadge || favicon}
         alt={team}
         className={clsx("w-8 h-8 grayscale opacity-80", {
-          invert: !teamData?.strBadge,
+          "invert dark:invert-0": !teamData?.strBadge,
           "animate-pulse": teamData?.strBadge === null,
         })}
       />
       <h1
         className={clsx(
-          "font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r",
+          "relative font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r",
           {
             "dark:from-indigo-300 from-indigo-500 dark:to-purple-300 to-purple-500":
               !teamData?.strColour1,
@@ -63,7 +63,8 @@ export const Nav = ({ initialTeamImages }: Props) => {
               : undefined,
         }}
       >
-        TV {team.replace(/-/g, " ").toUpperCase()}
+        <span className="block dark:hidden" style={{ textShadow: "0 0 1px rgba(0, 0, 0, 0.5)" }}>TV {team.replace(/-/g, " ").toUpperCase()}</span>
+        <span className="hidden dark:block" style={{ textShadow: "0 0 1px rgba(255, 255, 255, 0.5)" }}>TV {team.replace(/-/g, " ").toUpperCase()}</span>
       </h1>
     </nav>
   );

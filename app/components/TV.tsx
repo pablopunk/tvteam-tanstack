@@ -26,11 +26,14 @@ export const TV = ({ name }: { name: string }) => {
   }, [name]);
 
   return (
-    <div
-      className={`text-gray-900 dark:text-gray-100 rounded-md p-1 text-center ${colorClass}`}
+    <a
+      href={`https://search.brave.com/search?q=${encodeURIComponent(name)}`}
+      className={`text-gray-900 dark:text-gray-100 rounded-md p-1 text-center ${colorClass} hover:saturate-200 hover:brightness-110 transition`}
+      target="_blank"
+      rel="noreferrer"
     >
       {name}
-    </div>
+    </a>
   );
 };
 

@@ -61,11 +61,11 @@ export const Matches = ({ matches }: Props) => {
           <div className="grid grid-cols-3 gap-2 text-xs mt-2">
             {loadingData ? (
               <>
-                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-8 animate-pulse" />
-                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-8 animate-pulse" />
-                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-8 animate-pulse" />
-                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-8 animate-pulse" />
-                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-8 animate-pulse" />
+                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-6 animate-pulse" />
+                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-6 animate-pulse" />
+                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-6 animate-pulse" />
+                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-6 animate-pulse" />
+                <div className="bg-gray-200 dark:bg-gray-700 rounded-md h-6 animate-pulse" />
               </>
             ) : (
               match.tvs.map((tv) => <TV key={tv} name={tv} />)

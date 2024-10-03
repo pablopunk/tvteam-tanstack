@@ -1,9 +1,9 @@
-import { Database } from "bun:sqlite";
+import Database from "better-sqlite3";
 
 // Initialize the database and create the cache table if it doesn't exist
 const db = new Database("cache.db");
 
-db.run(`
+db.exec(`
   CREATE TABLE IF NOT EXISTS cache (
     country TEXT,
     team TEXT,

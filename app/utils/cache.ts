@@ -1,5 +1,5 @@
-import db from "../providers/sqlite";
-import { getMatches } from "../providers/livesoccertv";
+import db from "@/providers/sqlite";
+import { getMatches } from "@/providers/livesoccertv";
 
 interface CacheKey {
 	country: string;
@@ -13,28 +13,29 @@ export async function getCachedMatches({ country, team, timezone }: CacheKey) {
 
 	// Check the cache for a recent entry
 	const cached = db
-		.query(
-			`SELECT result FROM cache WHERE country = ? AND team = ? AND timezone = ? AND timestamp > ?`,
+		.prepare<[string, string, string, number], { result: string }>(
+			"SELECT result FROM cache WHERE country = ? AND team = ? AND timezone = ? AND timestamp > ?",
 		)
 		.get(country, team, timezone, oneMinuteAgo);
 
 	if (cached) {
-		// Return the cached result
-		return JSON.parse(cached.result);
-	}
+		console.log(`*Serving from cache [${country}, ${team}, ${timezone}]`);
+    try {
+      const cachedResult = JSON.parse(cached?.result);
+      if (cachedResult.length > 0) {
+        return cachedResult;
+      }
+    } catch(err) {
+    }
+  }
 
 	// If no valid cached result, fetch new data
 	const results = await getMatches(country, team, { timezone });
 
 	// Store the new result in the cache
-	db.run(
-		`INSERT OR REPLACE INTO cache (country, team, timezone, result, timestamp) VALUES (?, ?, ?, ?, ?)`,
-		country,
-		team,
-		timezone,
-		JSON.stringify(results),
-		Date.now(),
-	);
+	db.prepare(
+		"INSERT OR REPLACE INTO cache (country, team, timezone, result, timestamp) VALUES (?, ?, ?, ?, ?)",
+	).run(country, team, timezone, JSON.stringify(results), Date.now());
 
 	return results || [];
 }

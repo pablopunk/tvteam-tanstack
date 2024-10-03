@@ -2,6 +2,7 @@
   "name": "tv-team",
   "type": "module",
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
     "@types/bun": "latest",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
@@ -16,6 +17,7 @@
     "@tanstack/start": "^1.58.16",
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.20",
+    "better-sqlite3": "^11.3.0",
     "livesoccertv-parser": "^6.0.3",
     "postcss": "^8.4.47",
     "react": "^18.3.1",

@@ -1,5 +1,5 @@
-import db from "@/providers/sqlite";
 import { getMatches } from "@/providers/livesoccertv";
+import db from "@/providers/sqlite";
 
 interface CacheKey {
 	country: string;
@@ -20,14 +20,13 @@ export async function getCachedMatches({ country, team, timezone }: CacheKey) {
 
 	if (cached) {
 		console.log(`*Serving from cache [${country}, ${team}, ${timezone}]`);
-    try {
-      const cachedResult = JSON.parse(cached?.result);
-      if (cachedResult.length > 0) {
-        return cachedResult;
-      }
-    } catch(err) {
-    }
-  }
+		try {
+			const cachedResult = JSON.parse(cached?.result);
+			if (cachedResult.length > 0) {
+				return cachedResult;
+			}
+		} catch (err) {}
+	}
 
 	// If no valid cached result, fetch new data
 	const results = await getMatches(country, team, { timezone });

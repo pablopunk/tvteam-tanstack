@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getTeamImages } from "@/providers/sportsdb";
 import favicon from "@/public/favicon.svg?url";
 import clsx from "clsx";
+import { teamNameUppercase } from "@/utils/team";
 
 const getTeamImagesFromServer = async (teamName: string) => {
   const data = await getTeamImages(teamName);
@@ -22,7 +23,7 @@ export const Nav = ({ initialTeamImages }: Props) => {
     );
 
   useEffect(() => {
-    getTeamImagesFromServer(team.replace(/-/g, " ")).then(setTeamData);
+    getTeamImagesFromServer(team).then(setTeamData);
   }, [team]);
 
   return (
@@ -63,8 +64,18 @@ export const Nav = ({ initialTeamImages }: Props) => {
               : undefined,
         }}
       >
-        <span className="block dark:hidden" style={{ textShadow: "0 0 1px rgba(0, 0, 0, 0.5)" }}>TV {team.replace(/-/g, " ").toUpperCase()}</span>
-        <span className="hidden dark:block" style={{ textShadow: "0 0 1px rgba(255, 255, 255, 0.5)" }}>TV {team.replace(/-/g, " ").toUpperCase()}</span>
+        <span
+          className="block dark:hidden"
+          style={{ textShadow: "0 0 1px rgba(0, 0, 0, 0.5)" }}
+        >
+          TV {teamNameUppercase(team)}
+        </span>
+        <span
+          className="hidden dark:block"
+          style={{ textShadow: "0 0 1px rgba(255, 255, 255, 0.5)" }}
+        >
+          TV {teamNameUppercase(team)}
+        </span>
       </h1>
     </nav>
   );

@@ -1,14 +1,11 @@
 import { useAppContext } from "@/hooks/useAppContext";
+import { teamNameCapitalized } from "@/utils/team";
 
 const quickLinks = [
   ["spain", "real-madrid"],
   ["england", "arsenal"],
   ["spain", "barcelona"],
 ];
-
-const prettyTeamName = (team: string) => {
-  return team.replace(/-/g, " ").toUpperCase();
-};
 
 export const QuickSearch = () => {
   const ctx = useAppContext();
@@ -22,8 +19,8 @@ export const QuickSearch = () => {
   };
 
   return (
-    <div className="flex gap-3 items-center">
-      <h3 className="text-xs text-gray-500 dark:text-gray-400">Quick links:</h3>
+    <div className="flex gap-2 items-center">
+      <h3 className="text-xs text-gray-700 dark:text-gray-500">Quick links</h3>
       <div className="flex gap-2">
         {quickLinks.map(([country, team]) => (
           <button
@@ -34,7 +31,7 @@ export const QuickSearch = () => {
             }}
             key={`${country}-${team}`}
           >
-            {prettyTeamName(team)}
+            {teamNameCapitalized(team)}
           </button>
         ))}
       </div>

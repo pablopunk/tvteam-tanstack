@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
 import { useEffect, useState } from "react";
-import { getMatches, matchesAreEqual } from "@/providers/livesoccertv";
+import { matchesAreEqual } from "@/providers/livesoccertv";
 import { Matches } from "@/components/Matches";
 import { SearchTeams } from "@/components/SearchTeams";
 import { SearchTimezones } from "@/components/SearchTimezones";
@@ -10,6 +10,8 @@ import { getCachedMatches } from "@/utils/cache";
 import { QuickSearch } from "@/components/QuickSearch";
 import { Nav } from "@/components/Nav";
 import { getTeamImages } from "@/providers/sportsdb";
+import { Helmet } from "react-helmet";
+import { teamNameCapitalized } from "@/utils/team";
 
 const getMatchesFromServer = createServerFn(
   "GET",
@@ -23,15 +25,20 @@ const getMatchesFromServer = createServerFn(
 export const Route = createFileRoute("/")({
   component: Home,
   loader: async (ctx) => {
-    const search = ctx.location.search as { timezone?: string };
-    const timezone = search.timezone || "Europe/Madrid";
+    // default values
+    const timezone = "Europe/Madrid";
+    const country = "spain";
+    const team = "real-madrid";
     const matches = await getMatchesFromServer({
-      country: "spain",
-      team: "real-madrid",
+      country,
+      team,
       timezone,
     });
-    const images = await getTeamImages("real madrid");
+    const images = await getTeamImages(team);
     return {
+      country,
+      team,
+      timezone,
       matches,
       images,
     };
@@ -58,6 +65,9 @@ function Home() {
 
   return (
     <div className="flex flex-col gap-4 max-w-screen-sm mx-auto">
+      <Helmet>
+        <title>TV {teamNameCapitalized(team)}</title>
+      </Helmet>
       <Nav initialTeamImages={state?.images} />
       <aside className="flex flex-col gap-3 w-full items-center">
         <div className="flex gap-2 justify-center w-full">
@@ -92,7 +102,7 @@ function Home() {
         ) : (
           <h3 className="text-xl text-red-900 dark:text-red-100">
             No upcoming matches found for{" "}
-            <span className="font-bold">{team.replace(/-/g, " ")}</span>
+            <span className="font-bold">{teamNameCapitalized(team)}</span>
           </h3>
         )}
       </div>

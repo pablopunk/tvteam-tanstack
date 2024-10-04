@@ -4,7 +4,7 @@ const normalizeTeamName = (teamName: string) => {
     .replace(/-/g, " ")
     .split(" ")
     .map(t => t.trim())
-    .filter(t => t !== 'de')
+    .filter(t => !t.match(/de/i)) // celta de vigo -> celta vigo
     .join(" ");
 }
 

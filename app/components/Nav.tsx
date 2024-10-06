@@ -1,9 +1,10 @@
 import { useAppContext } from "@/hooks/useAppContext";
 import { getTeamImages } from "@/providers/sportsdb";
-import favicon from "@/public/favicon.svg?url";
+import defaultFavicon from "@/public/favicon.svg?url";
 import { teamNameUppercase } from "@/utils/team";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import Helmet from "react-helmet";
 
 const getTeamImagesFromServer = async (teamName: string) => {
 	const data = await getTeamImages(teamName);
@@ -26,6 +27,8 @@ export const Nav = ({ initialTeamImages }: Props) => {
 		getTeamImagesFromServer(team).then(setTeamData);
 	}, [team]);
 
+	const favicon = teamData?.strBadge || defaultFavicon;
+
 	return (
 		<nav className="flex justify-center gap-2 relative">
 			{teamData?.strBanner && (
@@ -41,6 +44,10 @@ export const Nav = ({ initialTeamImages }: Props) => {
 					style={{ maskImage: "linear-gradient(black 10%, transparent)" }}
 				/>
 			)}
+			<Helmet>
+				<meta name="theme-color" content={teamData?.strColour1 || "#000000"} />
+				<link rel="favicon" href={favicon} />
+			</Helmet>
 			<img
 				src={teamData?.strBadge || favicon}
 				alt={team}

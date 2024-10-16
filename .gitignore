@@ -177,6 +177,9 @@ dist
 # SQLite cache
 cache.db
 
+# JSON cache
+cache.json
+
 # dist
 .output
 .vercel

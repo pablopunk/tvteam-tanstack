@@ -1,5 +1,16 @@
 import { getMatches } from "@/providers/livesoccertv";
-import db from "@/providers/sqlite";
+import type { CacheProvider } from "@/types/cacheProvider";
+import { RedisCacheProvider } from "@/providers/redis";
+import { JSONCacheProvider } from "@/providers/jsoncache";
+
+let cacheProvider: CacheProvider;
+
+// Determine which cache provider to use
+if (process.env.REDIS_URL) {
+	cacheProvider = new RedisCacheProvider(process.env.REDIS_URL);
+} else {
+	cacheProvider = new JSONCacheProvider();
+}
 
 interface CacheKey {
 	country: string;
@@ -7,34 +18,26 @@ interface CacheKey {
 	timezone: string;
 }
 
-export async function getCachedMatches({ country, team, timezone }: CacheKey) {
-	// Calculate the timestamp for 1 minute ago
-	const oneMinuteAgo = Date.now() - 60000; // 60000ms = 1 minute
+function generateCacheKey({ country, team, timezone }: CacheKey): string {
+	return `${country}_${team}_${timezone}`;
+}
 
-	// Check the cache for a recent entry
-	const cached = db
-		.prepare<[string, string, string, number], { result: string }>(
-			"SELECT result FROM cache WHERE country = ? AND team = ? AND timezone = ? AND timestamp > ?",
-		)
-		.get(country, team, timezone, oneMinuteAgo);
+export async function getCachedMatches(cacheKey: CacheKey) {
+	const key = generateCacheKey(cacheKey);
 
-	if (cached) {
-		console.log(`*Serving from cache [${country}, ${team}, ${timezone}]`);
-		try {
-			const cachedResult = JSON.parse(cached?.result);
-			if (cachedResult.length > 0) {
-				return cachedResult;
-			}
-		} catch (err) {}
+	// Try to get cached data
+	const cachedData = await cacheProvider.get(key);
+	if (cachedData) {
+		return cachedData;
 	}
 
-	// If no valid cached result, fetch new data
-	const results = await getMatches(country, team, { timezone });
+	// Fetch fresh data
+	const results = await getMatches(cacheKey.country, cacheKey.team, {
+		timezone: cacheKey.timezone,
+	});
 
-	// Store the new result in the cache
-	db.prepare(
-		"INSERT OR REPLACE INTO cache (country, team, timezone, result, timestamp) VALUES (?, ?, ?, ?, ?)",
-	).run(country, team, timezone, JSON.stringify(results), Date.now());
+	// Store in cache
+	await cacheProvider.set(key, results);
 
 	return results || [];
 }

@@ -17,7 +17,7 @@
     "@tanstack/start": "^1.58.16",
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.20",
-    "better-sqlite3": "^11.3.0",
+    "ioredis": "^5.4.1",
     "livesoccertv-parser": "^6.0.3",
     "postcss": "^8.4.47",
     "react": "^19.0.0-rc-83825814-20241015",

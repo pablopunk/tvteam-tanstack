@@ -30,7 +30,7 @@
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
-    "start": "node .output/server/index.mjs",
+    "start": "bun .output/server/index.mjs",
     "format": "biome format --write app"
   }
 }

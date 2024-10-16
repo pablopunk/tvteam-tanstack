@@ -8,7 +8,7 @@ export default defineConfig({
 		// preset: "bun",
 	},
 	vite: {
-		plugins: () => [
+		plugins: [
 			tsConfigPaths({
 				projects: ["./tsconfig.json"],
 			}),
